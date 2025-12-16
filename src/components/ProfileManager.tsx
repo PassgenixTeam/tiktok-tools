@@ -16,7 +16,7 @@ export default function ProfileManager({ onProfileSelect }: ProfileManagerProps)
     if (!newProfileName.trim() || !newProfileUsername.trim()) return;
 
     const newProfile: TikTokProfile = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       name: newProfileName.trim(),
       username: newProfileUsername.trim(),
       createdAt: new Date(),
