@@ -42,23 +42,31 @@ if (process.platform === 'linux') {
     await electronApp.close()
   })
 
-  describe('[electron-vite-react] e2e tests', async () => {
+  describe('[tiktok-tools] e2e tests', async () => {
     test('startup', async () => {
       const title = await page.title()
       expect(title).eq('Electron + Vite + React')
     })
 
-    test('should be home page is load correctly', async () => {
-      const h1 = await page.$('h1')
-      const title = await h1?.textContent()
-      expect(title).eq('Electron + Vite + React')
+    test('should show TikTok Tools sidebar', async () => {
+      const sidebarTitle = await page.$('h2')
+      const title = await sidebarTitle?.textContent()
+      expect(title).eq('TikTok Tools')
     })
 
-    test('should be count button can click', async () => {
-      const countButton = await page.$('button')
-      await countButton?.click()
-      const countValue = await countButton?.textContent()
-      expect(countValue).eq('count is 1')
+    test('should show profile manager', async () => {
+      const profileHeader = await page.$('text=TikTok Profile')
+      expect(profileHeader).toBeTruthy()
+    })
+
+    test('should show create new profile button', async () => {
+      const createButton = await page.$('text=Create New Profile')
+      expect(createButton).toBeTruthy()
+    })
+
+    test('should show function selection message when no function selected', async () => {
+      const message = await page.$('text=Select a function from the sidebar to get started')
+      expect(message).toBeTruthy()
     })
   })
 }
