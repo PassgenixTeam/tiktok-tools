@@ -128,7 +128,7 @@ export default function ConfigPanel({ selectedFunction, onRun }: ConfigPanelProp
                     type="number"
                     value={config.hashtagCount as number || 10}
                     onChange={(e) => {
-                      const value = parseInt(e.target.value);
+                      const value = parseInt(e.target.value, 10);
                       setConfig({ ...config, hashtagCount: isNaN(value) ? 10 : value });
                     }}
                     className="w-full px-3 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
