@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "heroui": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@heroui/mcp" 
+      ]
+    }
+  }
+}
