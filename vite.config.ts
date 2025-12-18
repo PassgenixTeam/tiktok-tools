@@ -79,6 +79,11 @@ export default defineConfig(({ command }) => {
                 return {
                     host: url.hostname,
                     port: +url.port,
+                    watch: {
+                        ignored: [
+                            "user-browser-data/**", // ignore browser user data folder created by Playwright
+                        ]
+                    }
                 };
             })(),
         clearScreen: false,

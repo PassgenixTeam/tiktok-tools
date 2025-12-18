@@ -4,11 +4,24 @@
     "main": "dist-electron/main/index.js",
     "description": "A comprehensive TikTok tools built with Electron, Vite, and React.",
     "license": "MIT",
+    "author": {
+        "name": "Minh Nguyen Le Anh",
+        "email": "minh.nguyen@fake.email.com",
+        "url": "http://fake.website.com"
+    },
     "private": true,
     "debug": {
         "env": {
             "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777/"
         }
+    },
+    "build": {
+        "extraResources": [
+            {
+                "from": "browsers/",
+                "to": "browsers/"
+            }
+        ]
     },
     "type": "module",
     "scripts": {
@@ -25,6 +38,7 @@
         "electron-updater": "^6.3.9",
         "framer-motion": "^12.23.26",
         "lucide-react": "^0.561.0",
+        "playwright": "^1.57.0",
         "react-hook-form": "^7.68.0",
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.11.0",
@@ -32,7 +46,6 @@
         "usehooks-ts": "^3.1.1"
     },
     "devDependencies": {
-        "@playwright/test": "^1.48.2",
         "@tailwindcss/vite": "^4.1.18",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",

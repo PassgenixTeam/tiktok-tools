@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import os from "node:os";
 import { update } from "./update";
+import { setupAutomationHandlers } from "./automation/automation-handlers";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,6 +39,12 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
     process.exit(0);
 }
+
+// // Playwright browsers path
+// const browsersPath = app.isPackaged
+//     ? path.join(process.resourcesPath, "browsers")
+//     : path.join(process.env.APP_ROOT, "browsers");
+// process.env.PLAYWRIGHT_BROWSERS_PATH = browsersPath;
 
 let win: BrowserWindow | null = null;
 const preload = path.join(__dirname, "../preload/index.mjs");
@@ -80,13 +87,16 @@ async function createWindow() {
 
     // Auto update
     update(win);
+
+    // Setup automation handlers
+    setupAutomationHandlers(win);
 }
 
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
     win = null;
-    if (process.platform !== "darwin") app.quit();
+    app.quit()
 });
 
 app.on("second-instance", () => {
