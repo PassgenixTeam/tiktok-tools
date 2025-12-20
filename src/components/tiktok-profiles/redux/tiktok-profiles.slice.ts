@@ -3,7 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const SLICE_KEY = "tiktokProfiles";
 
 export type TiktokProfile = {
-    name: string;
+    username: string;
+    name?: string;
+    avatarUrl?: string;
 }
 
 let initialState = {
@@ -32,16 +34,16 @@ const tiktokProfilesSlice = createSlice({
         },
         removeProfile(state, action: PayloadAction<string>) {
             state.availableProfiles = state.availableProfiles.filter(
-                (profile) => profile.name !== action.payload
+                (profile) => profile.username !== action.payload
             );
 
-            if (state.currentProfile?.name === action.payload) {
+            if (state.currentProfile?.username === action.payload) {
                 state.currentProfile = null;
             }
         },
         chooseProfile(state, action: PayloadAction<string>) {
             const profile = state.availableProfiles.find(
-                (p) => p.name === action.payload
+                (p) => p.username === action.payload
             );
             if (profile) {
                 state.currentProfile = profile;

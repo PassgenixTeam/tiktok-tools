@@ -1,9 +1,9 @@
 import { Controller, useForm } from "react-hook-form";
 import { Button, cn, Form, FormProps, Input } from "@heroui/react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { addProfile } from "./redux/tiktok-profiles.slice";
+import { addProfile } from "./redux/partner-profiles.slice";
 
-export type AddTikTokProfileFormProps = FormProps & {
+export type AddPartnerProfileFormProps = FormProps & {
     onClose: () => void;
 };
 
@@ -11,9 +11,9 @@ type FormData = {
     username: string;
 };
 
-export function AddTikTokProfileForm({ onClose, className, ...props }: AddTikTokProfileFormProps) {
+export function AddPartnerProfileForm({ onClose, className, ...props }: AddPartnerProfileFormProps) {
     const dispatch = useAppDispatch();
-    const { availableProfiles } = useAppSelector((state) => state.tiktokProfiles);
+    const { availableProfiles } = useAppSelector((state) => state.partnerProfiles);
 
     const { handleSubmit, control } = useForm<FormData>({
         defaultValues: {
@@ -27,13 +27,9 @@ export function AddTikTokProfileForm({ onClose, className, ...props }: AddTikTok
     };
 
     return (
-        <Form
-            className={cn("w-full justify-center items-stretch p-4", className)}
-            onSubmit={handleSubmit(onSubmit)}
-            {...props}
-        >
-            <h1 className="text-center text-xl font-bold">Thêm Profile TikTok</h1>
-
+        <Form className={cn("w-full justify-center items-stretch p-4", className)} onSubmit={handleSubmit(onSubmit)} {...props}>
+            <h1 className="text-center text-xl font-bold">Thêm đối tác</h1>
+            
             <Controller
                 control={control}
                 name="username"
@@ -57,7 +53,6 @@ export function AddTikTokProfileForm({ onClose, className, ...props }: AddTikTok
                     />
                 )}
                 rules={{
-                    required: "Hãy nhập tên profile.",
                     validate: (value) => {
                         value = value.trim();
                         if (value.length === 0) {
@@ -79,18 +74,8 @@ export function AddTikTokProfileForm({ onClose, className, ...props }: AddTikTok
             />
 
             <div className="flex justify-end items-center">
-                <Button
-                    type="button"
-                    variant="bordered"
-                    color="danger"
-                    onPress={onClose}
-                    className="mr-2"
-                >
-                    Hủy
-                </Button>
-                <Button type="submit" color="primary">
-                    Thêm
-                </Button>
+                <Button type="button" variant="bordered" color="danger" onPress={onClose} className="mr-2">Hủy</Button>
+                <Button type="submit" color="primary">Thêm</Button>
             </div>
         </Form>
     );

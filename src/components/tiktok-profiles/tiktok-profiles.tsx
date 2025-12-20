@@ -1,32 +1,24 @@
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Button, cn, Modal, ModalContent, useDisclosure } from "@heroui/react";
 import { PlusIcon } from "lucide-react";
-import { addProfile } from "./redux/tiktok-profiles.slice";
-import { TikTokProfile } from "./tiktok-profile";
 import { AddTikTokProfileForm } from "./add-tiktok-profile-form";
+import { TikTokProfile } from "./tiktok-profile";
 
 export function TikTokProfiles({ className, ...props }: React.ComponentProps<"div">) {
     const dispatch = useAppDispatch();
     const { availableProfiles } = useAppSelector((state) => state.tiktokProfiles);
 
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
-    console.log(availableProfiles);
-    
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
         <div className={cn("flex items-center gap-2", className)} {...props}>
             {availableProfiles.length > 0 ? (
                 availableProfiles.map((profile) => (
-                    <TikTokProfile key={profile.name} name={profile.name} />
+                    <TikTokProfile key={profile.username} profile={profile} />
                 ))
             ) : (
                 <div className="text-sm italic text-muted-foreground">Chưa có profile</div>
             )}
-
-            {/* <TikTokProfile name="Decor1" />
-            <TikTokProfile name="Shop 1" />
-            <TikTokProfile name="embexinh_review" /> */}
 
             <Button
                 size="sm"
@@ -41,9 +33,7 @@ export function TikTokProfiles({ className, ...props }: React.ComponentProps<"di
 
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
-                    {
-                        (onClose) => <AddTikTokProfileForm onClose={onClose} />
-                    }
+                    {(onClose) => <AddTikTokProfileForm onClose={onClose} />}
                 </ModalContent>
             </Modal>
         </div>
