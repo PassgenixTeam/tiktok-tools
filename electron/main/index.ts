@@ -5,6 +5,7 @@ import path from "node:path";
 import os from "node:os";
 import { update } from "./update";
 import { setupAutomationHandlers } from "./automation/automation-handlers";
+import { setupReportHandlers } from "./report/report-handlers";
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -90,6 +91,9 @@ async function createWindow() {
 
     // Setup automation handlers
     setupAutomationHandlers(win);
+
+    // Setup report handlers
+    setupReportHandlers(win);
 }
 
 app.whenReady().then(createWindow);

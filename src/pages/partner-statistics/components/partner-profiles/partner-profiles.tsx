@@ -53,7 +53,7 @@ export function PartnerProfiles({ className, ...props }: ContainerProps) {
             {availableProfiles.length > 0 && (
                 <Grid>
                     {availableProfiles.map((profile) => (
-                        <GridCell key={profile.name} className="basis-1/3">
+                        <GridCell key={profile.username} className="basis-1/3">
                             <Card shadow="none" className="grow border border-gray-100">
                                 <CardHeader className="justify-between">
                                     <div className="flex gap-5">

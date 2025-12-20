@@ -1,4 +1,14 @@
-import { addToast, Button, cn } from "@heroui/react";
+import {
+    addToast,
+    Button,
+    cn,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure,
+} from "@heroui/react";
 import { ArrowBigRight, BookIcon, Globe2Icon } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import { AppNavBar } from "./components/layout/app-navbar";
@@ -35,26 +45,28 @@ export function Layout() {
         }
     }
 
-    const [isInstallingBrowsers, setIsInstallingBrowsers] = useState<boolean>(false);
-    const handleInstallingBrowsers = useCallback(
-        (_event: Electron.IpcRendererEvent, ...args: any[]) => {
-            setIsInstallingBrowsers(true);
+    const [blockingMessage, setBlockingMessage] = useState<string | null>(null);
+
+    const handleShowBlockingMessage = useCallback(
+        (_event: Electron.IpcRendererEvent, message: string) => {
+            setBlockingMessage(message);
         },
         [],
     );
+    const handleHideBlockingMessage = useCallback((_event: Electron.IpcRendererEvent) => {
+        setBlockingMessage(null);
+    }, []);
 
     useEffect(() => {
-        window.ipcRenderer.on("installing-browsers", handleInstallingBrowsers);
+        window.ipcRenderer.on("show-blocking-message", handleShowBlockingMessage);
+        window.ipcRenderer.on("hide-blocking-message", handleHideBlockingMessage);
         return () => {
-            window.ipcRenderer.off("installing-browsers", handleInstallingBrowsers);
+            window.ipcRenderer.off("show-blocking-message", handleShowBlockingMessage);
+            window.ipcRenderer.off("hide-blocking-message", handleHideBlockingMessage);
         };
     }, []);
 
-    return isInstallingBrowsers ? (
-        <main className="flex flex-col h-screen">
-            <h1>Đang cài đặt trình duyệt... Vui lòng chờ trong giây lát.</h1>
-        </main>
-    ) : (
+    return (
         <main className="flex flex-col h-screen">
             <AppNavBar />
             <div className="grow flex">
@@ -80,6 +92,19 @@ export function Layout() {
                     <Outlet />
                 </AppMain>
             </div>
+
+            <Modal
+                isDismissable={false}
+                isKeyboardDismissDisabled={true}
+                isOpen={blockingMessage !== null}
+                closeButton={<></>}
+            >
+                <ModalContent>
+                    <ModalBody>
+                        <p className="text-center">{blockingMessage ?? "Vui lòng chờ trong giây lát..."}</p>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </main>
     );
 }
